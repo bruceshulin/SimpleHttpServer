@@ -1,0 +1,54 @@
+<html>
+<head>
+<h1>hello guy!</h1>
+<meta charset="utf-8">
+<title>working item</title>
+<script type="text/javascript" src="base64.js"></script>
+<script>
+function changetext(id)
+{
+	 var base = new Base64();  
+	 var id= document.getElementById("id").value;
+	var user= base.encode(document.getElementById("user").value);
+	var time = document.getElementById("time").value;
+	var task = base.encode(document.getElementById("task").value);
+
+	/*
+	var id=escape(document.getElementById("id").value);
+	var user=escape(document.getElementById("user").value);
+	var time =escape(document.getElementById("time").value);
+	var task =escape(document.getElementById("task").value);
+	*/
+	//alert("id:"+id+"user:"+user+" task:"+task+" time:"+time);
+	//document.getElementById("user").value = user;
+	//document.getElementById("task").value = task;
+
+	document.forms[0].elements[0].disabled = true;
+  	document.forms[0].submit();
+}
+</script>
+</head>
+
+<body>
+	<form method="get" id="form" action="form.cgi">
+		<CENTER>
+			<div>id    :<input type="text" id="id" maxlength="20" value="" name="id"></input></br></div>
+			<div>user:<input  type="text" id="user"  value="" name="user"></input></br></div>
+			<div>task:<input  type="text" id="task" value="" name="task"></input></br></div>
+			<div>time:<input  type="text" id="time" maxlength="20" value="" name="time"></input></br></div>
+			<input id="su"  type="submit" value="submit" ></input>
+			<!--<button type ="button" value ="button" onclick="changetext(this)"></button>-->
+		</CENTER>
+	</form>
+	<CENTER>
+	<table>
+		<td><a href='/list.cgi'>lsit reaord</a></td>
+		<td >------------------</td>
+		<td><a href='/delete.cgi'>delete reaord</a></td>
+	</table>
+	</CENTER>
+	
+</body>
+
+
+</html>
