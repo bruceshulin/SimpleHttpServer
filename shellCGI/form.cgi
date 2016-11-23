@@ -1,33 +1,31 @@
 #!/bin/sh
-echo "Content-type: text/html; charset=iso-8859-1"
-echo "Content-Length: 118"
-echo
-#echo "</br>----</br>"
-#echo "</br>id: "
-#echo $FORM_id
-#echo "</br>user: "
-#echo $FORM_user
-#echo "</br>task: "
-#echo $FORM_task
-#echo "</br>time: "
-#echo $FORM_time
-#echo "</br>----</br>"
-#echo "id:$FORM_id</br> name:$FORM_user</br>  workingtime:$FORM_time</br>task:$FORM_task</br>"
 
-echo "<html>"
+echo "Content-type: text/html; charset=UTF-8"
+echo "Content-Length: 500"
+
 eval `/var/www/cgi-bin/proccgi.sh $*`
-echo "<body align=center>"
-echo "<div >"
-echo $QUERY_STRING>>log.file
+echo
+echo "<html><head><style type=text/css> .align-center{ margin:0 auto;width:500px;text-align:left; } </style> </head><body><div class=align-center> "
+
+  if [ ! -n "$FORM_id"  ] ; 
+  	then
+  	echo "id:$FORM_id</br> id is not fond! <a href ='temp.html'>go home</div></body></html>"
+        return;
+fi
+#show submit param
+echo "id:$FORM_id</br> name:$FORM_user</br>  workingtime:$FORM_time</br>task:$FORM_task</br>task:$FORM_tocao"
+#save param to log.file
+#echo $QUERY_STRING>>log.file
+
+#is file exist
 filepath=`echo |date "+%Y-%m-%d".file  |awk -F ' ' '{print $1}'`
 if [ -f $filepath ];
 then
-echo 
+	echo
 else
-touch  $filepath
-echo "</br>create  $filepath"
+	touch  $filepath
+	echo "</br>create  $filepath"
 fi
-#1find file  	2 open file 	3search key 	4 if key
 
 #find id
 isfindid=0
@@ -41,17 +39,19 @@ do
     	echo 
     fi
 done
+echo "</br></br>"
 #search over
-    if [ $isfindid = 1 ];
+if [ $isfindid = 1 ];
     then
-    	echo "Locate the original records, you can <a href='/delete.cgi?id=$FORM_id'>delete record</a>"
+    	echo "Locate the original records, </br>you can <a href='delete.cgi?id=$FORM_id'>delete record</a> or "
+    	echo "<a href='temp.html'>go home</a>"
     else
-    	echo "$FORM_id\t$FORM_user\t$FORM_time\t$FORM_task">>$filepath
-    	echo "</br> submit success! </br> good luck!</br><a href='/list.cgi'>look all</a></br>"
+    	echo "$FORM_id\t$FORM_user\t$FORM_time\t$FORM_task\t$FORM_tocao">>$filepath
+    	echo " submit success!  good luck!<a href='list.cgi'>look all</a> or"
+    	echo "<a href='delete.cgi?id=$FORM_id'>delete record</a> or "
+	echo "<a href='temp.html'>go home</a>"
     fi
 #endif
 
 
-echo "</div>"
-echo "</body>"
-echo "</html>"
+echo "</div></body></html>"
